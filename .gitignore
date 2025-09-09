@@ -1,2 +1,10 @@
-/node_modules
-.env*
+# Ignore node modules in all subfolders
+**/node_modules/
+
+# Ignore env files in all subfolders
+**/.env
+
+# Optional ignores
+dist/
+build/
+.DS_Store
