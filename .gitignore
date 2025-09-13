@@ -3,6 +3,7 @@
 
 # Ignore env files in all subfolders
 **/.env
+**/.next
 
 # Optional ignores
 dist/
