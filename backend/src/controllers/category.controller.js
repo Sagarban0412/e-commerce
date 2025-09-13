@@ -1,6 +1,6 @@
 import Category from "../models/category.model.js";
 
-const create_category = async (req, res) => {
+export const create_category = async (req, res) => {
   try {
     const { name } = req.body;
 
@@ -15,4 +15,13 @@ const create_category = async (req, res) => {
   }
 };
 
-export default create_category;
+export const get_category = async (req,res)=>{
+  try {
+    const categories = await Category.find();
+    res.status(200).json(categories)
+  } catch (error) {
+    console.log(error.message);
+     res.status(500).json({ message: "Server error", error: error.message });
+  }
+}
+

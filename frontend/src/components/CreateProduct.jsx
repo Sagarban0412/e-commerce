@@ -1,7 +1,8 @@
-"use client"
+"use client";
 
 import { MoveLeft } from "lucide-react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const CreateProduct = ({ setCreate }) => {
   const [formData, setFormData] = useState({
@@ -30,11 +31,47 @@ const CreateProduct = ({ setCreate }) => {
     setCreate(false); // switch back to ProductInfo
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    // submit logic here
+
+    const data = new FormData();
+
+    data.append("title", formData.title);
+    data.append("description", formData.desc); // must match backend field name
+    data.append("price", formData.price);
+    data.append("stock", formData.stock);
+    data.append("category", formData.cat);
+    data.append("image", formData.image); // ✅ only the file itself
+
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/product/create",
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      alert("Product created successfully!");
+
+    } catch (err) {
+      console.error(err);
+      alert("Error creating product");
+    }
   };
+
+  const [category, setCategory] = useState([]);
+
+  useEffect(() => {
+    const fetchCategory = async () => {
+      const res = await axios.get("http://localhost:5000/api/category");
+      console.log(res.data);
+      setCategory(res.data);
+    };
+    fetchCategory();
+  }, []);
 
   return (
     <div className="flex flex-col items-center h-[calc(100vh-200px)] px-6 py-4">
@@ -94,9 +131,11 @@ const CreateProduct = ({ setCreate }) => {
             className="flex-1 h-12 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="">Select Category</option>
-            <option value="laptop">Laptop</option>
-            <option value="printer">Printer</option>
-            <option value="accessories">Laptop Accessories</option>
+            {category.map((cat) => (
+              <option key={cat._id} value={cat._id}>
+                {cat.name}
+              </option>
+            ))}
           </select>
 
           <input
@@ -132,7 +171,11 @@ const CreateProduct = ({ setCreate }) => {
               stroke="currentColor"
               className="w-5 h-5"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 4v16m8-8H4"
+              />
             </svg>
             Upload Image
           </label>

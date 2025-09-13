@@ -9,7 +9,24 @@ export const create_product = async (req, res) => {
     if (!req.body) {
       return res.status(400).json({ message: "Request body is missing" });
     }
-    const product = await createProduct(req.body);
+    
+     // Text fields from frontend
+    const { title, description, price, stock, category } = req.body;
+
+    // Image from multer + cloudinary
+    const imageUrl = req.file?.path; // If using multer-storage-cloudinary this is the URL
+    
+    // Build data object
+    const productData = {
+      title,
+      description,
+      price,
+      stock,
+      category,
+      image: imageUrl,
+    };
+
+    const product = await createProduct(productData);
 
     res.status(201).json({
       message: "Product created successfully",

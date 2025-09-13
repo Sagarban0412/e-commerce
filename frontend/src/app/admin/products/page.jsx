@@ -13,7 +13,7 @@ const page = ({ children }) => {
 
   return (
     <>
-      <div className="w-[calc(100vw-420px)] px-30 pt-10">
+      <div className="w-[calc(100vw-420px)] px-30 ">
         <div className="flex justify-between items-center">
           <h1 className="font-medium text-xl">Product Management</h1>
           <CirclePlus
