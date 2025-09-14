@@ -9,6 +9,10 @@ const categorySchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
     },
+    image: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
@@ -16,4 +20,4 @@ const categorySchema = new mongoose.Schema(
 );
 
 const Category = mongoose.model("Category", categorySchema);
-export default Category
+export default Category;
