@@ -17,8 +17,8 @@ const Products = () => {
   return (
     <>
       <div>
-        <h1 className="text-center font-semibold text-4xl">Products</h1>
-        <div className="flex gap-5">
+        <h1 className="text-center font-light text-[32px]">Products</h1>
+        <div className="flex gap-10">
             {
           product.map((data,index)=>{
             return(
