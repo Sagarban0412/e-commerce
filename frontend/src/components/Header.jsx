@@ -8,13 +8,14 @@ import {
   faCircleUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { AuthContext } from "../app/context/AuthContext";
+import { CartContext } from "@/app/context/cart";
 
 export default function Navbar({ cartCount = 0, user1 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [categoryDropdown, setCategoryDropdown] = useState(false);
   const [userDropdown, setUserDropdown] = useState(false);
   const { user, logout } = useContext(AuthContext);
-
+  const {getCartCount } = useContext(CartContext)
   return (
     <nav className="bg-white shadow sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -85,9 +86,9 @@ export default function Navbar({ cartCount = 0, user1 }) {
               className="relative text-gray-700 hover:text-indigo-600"
             >
               <FontAwesomeIcon icon={faCartShopping} size={20} />
-              {cartCount > 0 && (
+              {getCartCount() > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full px-1 text-xs">
-                  {cartCount}
+                  {getCartCount()}
                 </span>
               )}
             </Link>

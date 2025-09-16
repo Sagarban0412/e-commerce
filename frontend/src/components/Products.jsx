@@ -9,7 +9,7 @@ const Products = () => {
     const fetchProduct = async () => {
       const res = await axios.get("http://localhost:5000/api/product");
       setProduct(res.data);
-      console.log(res.data);
+      // console.log(res.data);
     };
     fetchProduct();
   }, []);
@@ -23,7 +23,7 @@ const Products = () => {
           product.map((data,index)=>{
             return(
                 <div key={index}>
-                    <ProductCard title={data.title} price={data.price} imageUrl={data.image} desc={data.description} stock={data.stock} />
+                    <ProductCard key={data._id} title={data.title} price={data.price} imageUrl={data.image} desc={data.description} stock={data.stock} item={{ ...data, id: data._id }} />
                 </div>
             )
           })  
