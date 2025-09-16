@@ -9,6 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { AuthContext } from "../app/context/AuthContext";
 import { CartContext } from "@/app/context/cart";
+import CartModal from "./CartModel";
 
 export default function Navbar({ cartCount = 0, user1 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -16,6 +17,7 @@ export default function Navbar({ cartCount = 0, user1 }) {
   const [userDropdown, setUserDropdown] = useState(false);
   const { user, logout } = useContext(AuthContext);
   const {getCartCount } = useContext(CartContext)
+   const [cartOpen, setCartOpen] = useState(false);
   return (
     <nav className="bg-white shadow sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -81,8 +83,8 @@ export default function Navbar({ cartCount = 0, user1 }) {
 
           {/* Right Side: Cart + Auth */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link
-              href="/cart"
+            <button
+              onClick={() => setCartOpen(true)}
               className="relative text-gray-700 hover:text-indigo-600"
             >
               <FontAwesomeIcon icon={faCartShopping} size={20} />
@@ -91,7 +93,7 @@ export default function Navbar({ cartCount = 0, user1 }) {
                   {getCartCount()}
                 </span>
               )}
-            </Link>
+            </button>
 
             {/* User Section */}
             {user ? (
@@ -230,6 +232,9 @@ export default function Navbar({ cartCount = 0, user1 }) {
           )}
         </div>
       )}
+
+      {/* Cart Modal */}
+      <CartModal isOpen={cartOpen} onClose={() => setCartOpen(false)} />
     </nav>
   );
 }

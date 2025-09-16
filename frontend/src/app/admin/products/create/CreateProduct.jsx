@@ -54,8 +54,15 @@ const CreateProduct = ({ setCreate }) => {
         }
       );
 
-      alert("Product created successfully!");
-
+      setFormData({
+        title: "",
+        price: "",
+        desc: "",
+        cat: "",
+        stock: "",
+        image: null,
+      });
+      setPreview(null)
     } catch (err) {
       console.error(err);
       alert("Error creating product");
