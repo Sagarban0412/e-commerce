@@ -1,11 +1,23 @@
-# Ignore node modules in all subfolders
+# Ignore node_modules in all subfolders
+node_modules/
 **/node_modules/
 
-# Ignore env files in all subfolders
-**/.env
-**/.next
+# Ignore Next.js build folders everywhere
+.next/
+**/.next/
 
-# Optional ignores
+# Ignore environment files everywhere
+.env
+.env.*
+**/.env
+
+# Ignore backend env explicitly
+backend/.env
+
+# Ignore production build folders
 dist/
 build/
+
+# Ignore OS/system files
 .DS_Store
+Thumbs.db
