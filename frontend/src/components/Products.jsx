@@ -9,7 +9,7 @@ const Products = () => {
     const fetchProduct = async () => {
       const res = await axios.get("http://localhost:5000/api/product");
       setProduct(res.data);
-      // console.log(res.data);
+      console.log(res.data);
     };
     fetchProduct();
   }, []);

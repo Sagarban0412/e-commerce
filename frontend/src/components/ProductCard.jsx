@@ -9,9 +9,16 @@ const ProductCard = ({ title, price, imageUrl, stock, item }) => {
   const router = useRouter();
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const { cartItems, addToCart } = useContext(CartContext);
+
+  const id = item._id;
+  
+  // console.log(id);
+const handleProductDetail = (idt)=>{
+  router.push(`/product/details/${idt}`)
+}
   return (
     <div className="w-[400px] rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group border border-gray-100 bg-white">
-      <div className="relative aspect-square w-full overflow-hidden">
+      <div className="relative aspect-square w-full overflow-hidden" onClick={()=>handleProductDetail(id)}>
         <Image
           src={imageUrl}
           alt={title}
