@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useContext } from "react";
-import { CartContext } from "@/app/context/cart";
+import { CartContext } from "@/app/context/CartContext";
 
 const SuccessPage = () => {
   const { clearCart } = useContext(CartContext);

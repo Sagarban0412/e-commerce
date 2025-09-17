@@ -8,7 +8,7 @@ import {
   faCircleUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { AuthContext } from "../app/context/AuthContext";
-import { CartContext } from "@/app/context/cart";
+import { CartContext } from "@/app/context/CartContext";
 import CartModal from "./CartModel";
 
 export default function Navbar({ cartCount = 0, user1 }) {
@@ -191,7 +191,7 @@ export default function Navbar({ cartCount = 0, user1 }) {
             href="/cart"
             className="block px-3 py-2 rounded text-gray-700 hover:bg-indigo-100"
           >
-            Cart ({cartCount})
+            Cart {getCartCount()}
           </Link>
           {user ? (
             <>

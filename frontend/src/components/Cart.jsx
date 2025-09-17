@@ -1,6 +1,6 @@
 "use client";
 import React, { useContext } from "react";
-import { CartContext } from "@/app/context/cart";
+import { CartContext } from "@/app/context/CartContext";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 const page = () => {

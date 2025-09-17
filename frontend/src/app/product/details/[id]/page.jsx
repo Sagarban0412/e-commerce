@@ -4,7 +4,7 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import React, { useState, useEffect, useContext } from "react";
 import Image from "next/image";
-import { CartContext } from "@/app/context/cart";
+import { CartContext } from "@/app/context/CartContext";
 import Header from "@/components/Header";
 import { Heart, Minus, Plus, ShoppingCart } from "lucide-react";
 

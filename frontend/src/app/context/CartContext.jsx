@@ -1,13 +1,17 @@
 "use client";
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
+import { AuthContext } from "./AuthContext";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
+  const { user } = useContext(AuthContext);
+  const router = useRouter();
+
   // ✅ Start empty to avoid SSR/localStorage error
   const [cartItems, setCartItems] = useState([]);
-  
-  
 
   // ✅ Load from localStorage only on client after mount
   useEffect(() => {
@@ -15,7 +19,6 @@ export const CartProvider = ({ children }) => {
       const saved = localStorage.getItem("cartItems");
       if (saved) setCartItems(JSON.parse(saved));
     }
-    
   }, []);
 
   // ✅ Save to localStorage whenever cartItems changes
@@ -25,7 +28,23 @@ export const CartProvider = ({ children }) => {
     }
   }, [cartItems]);
 
+  // 🔹 Clear cart when user logs out
+  useEffect(() => {
+    if (!user) {
+      setCartItems([]);
+      localStorage.removeItem("cartItems");
+    }
+  }, [user]);
+
   const addToCart = (item) => {
+    if (!user) {
+      toast.error("You must be logged in to add items to the cart!");
+      setTimeout(() => {
+        router.push("/login");
+      }, 2000);
+      return; // stop here if not logged in
+    }
+
     setCartItems((prev) => {
       // check by id
       const existingItem = prev.find((p) => p.id === item.id);
@@ -39,6 +58,7 @@ export const CartProvider = ({ children }) => {
         return [...prev, { ...item, quantity: 1 }];
       }
     });
+    toast.success(`${item.title} added to cart!`);
   };
 
   const removeFromCart = (item) => {
@@ -76,7 +96,7 @@ export const CartProvider = ({ children }) => {
         removeFromCart,
         clearCart,
         getCartTotal,
-        getCartCount
+        getCartCount,
       }}
     >
       {children}
