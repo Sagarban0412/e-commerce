@@ -6,6 +6,8 @@ export const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   // ✅ Start empty to avoid SSR/localStorage error
   const [cartItems, setCartItems] = useState([]);
+  
+  
 
   // ✅ Load from localStorage only on client after mount
   useEffect(() => {
@@ -13,6 +15,7 @@ export const CartProvider = ({ children }) => {
       const saved = localStorage.getItem("cartItems");
       if (saved) setCartItems(JSON.parse(saved));
     }
+    
   }, []);
 
   // ✅ Save to localStorage whenever cartItems changes
