@@ -4,18 +4,23 @@ import React, { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import axios from "axios";
 import ProductCard from "@/components/ProductCard";
+import { useSearchParams, useRouter } from "next/navigation";
 
 const Page = () => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const categoryFromURL = searchParams.get("category");
+
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
-  const [menu, setMenu] = useState("All");
+  const [menu, setMenu] = useState(categoryFromURL || "All");
 
   // price filter states
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(300000);
 
-  // new state for sort order
-  // "none" | "lowToHigh" | "highToLow"
+  // sort order: "none" | "lowToHigh" | "highToLow"
   const [sortOrder, setSortOrder] = useState("none");
 
   useEffect(() => {
@@ -30,8 +35,8 @@ const Page = () => {
 
     const fetchProduct = async () => {
       try {
-        const product = await axios.get("http://localhost:5000/api/product");
-        setProducts(product.data);
+        const res = await axios.get("http://localhost:5000/api/product");
+        setProducts(res.data);
       } catch (err) {
         console.error(err);
       }
@@ -41,18 +46,33 @@ const Page = () => {
     fetchProduct();
   }, []);
 
+  // Whenever user clicks a category, update state and URL
+  const handleCategoryClick = (categoryId) => {
+    setMenu(categoryId);
+    if (categoryId === "All") {
+      router.push("/products", { scroll: false });
+    } else {
+      router.push(`/products?category=${categoryId}`, { scroll: false });
+    }
+  };
+
   // Filter by category and price
   let filteredProducts = products.filter((p) => {
     const categoryMatch = menu === "All" || p.category === menu;
-    const priceMatch = Number(p.price) >= minPrice && Number(p.price) <= maxPrice;
+    const priceMatch =
+      Number(p.price) >= minPrice && Number(p.price) <= maxPrice;
     return categoryMatch && priceMatch;
   });
 
-  // Sort filtered products based on sortOrder
+  // Sort filtered products
   if (sortOrder === "lowToHigh") {
-    filteredProducts = [...filteredProducts].sort((a, b) => Number(a.price) - Number(b.price));
+    filteredProducts = [...filteredProducts].sort(
+      (a, b) => Number(a.price) - Number(b.price)
+    );
   } else if (sortOrder === "highToLow") {
-    filteredProducts = [...filteredProducts].sort((a, b) => Number(b.price) - Number(a.price));
+    filteredProducts = [...filteredProducts].sort(
+      (a, b) => Number(b.price) - Number(a.price)
+    );
   }
 
   return (
@@ -64,7 +84,7 @@ const Page = () => {
           <h1 className="text-center text-2xl font-serif mb-6">Category</h1>
           <div className="flex flex-col space-y-3">
             <button
-              onClick={() => setMenu("All")}
+              onClick={() => handleCategoryClick("All")}
               className={`px-4 py-2 rounded-3xl ${
                 menu === "All"
                   ? "bg-black text-white"
@@ -77,7 +97,7 @@ const Page = () => {
             {categories.map((data) => (
               <button
                 key={data._id}
-                onClick={() => setMenu(data._id)}
+                onClick={() => handleCategoryClick(data._id)}
                 className={`px-4 py-2 rounded-3xl ${
                   menu === data._id
                     ? "bg-black text-white"

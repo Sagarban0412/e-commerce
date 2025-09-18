@@ -4,6 +4,8 @@ import HeroSection from "../components/HeroSection";
 import Product from "@/components/Products";
 import { ToastContainer } from "react-toastify"; 
 import "react-toastify/dist/ReactToastify.css";
+import Features from "@/components/Feature";
+import Footer from "@/components/Footer";
 
 const page = () => {
   return (
@@ -20,7 +22,9 @@ const page = () => {
       />
       <Header />
       <HeroSection />
+      <Features/>
       <Product />
+      <Footer/>
     </>
   );
 };
