@@ -31,54 +31,18 @@ export default function Navbar({ cartCount = 0, user1 }) {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-6">
-            {/* Categories Dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => setCategoryDropdown(!categoryDropdown)}
-                className="text-gray-700 hover:text-indigo-600 font-medium flex items-center"
-              >
-                Categories ▼
-              </button>
-              {categoryDropdown && (
-                <div className="absolute mt-2 w-48 bg-white shadow-lg rounded">
-                  <Link
-                    href="/products/category/electronics"
-                    className="block px-4 py-2 hover:bg-indigo-100"
-                  >
-                    laptop
-                  </Link>
-                  <Link
-                    href="/products/category/fashion"
-                    className="block px-4 py-2 hover:bg-indigo-100"
-                  >
-                    Mobiles
-                  </Link>
-                  <Link
-                    href="/products/category/home"
-                    className="block px-4 py-2 hover:bg-indigo-100"
-                  >
-                    
-                    Printer
-                  </Link>
-                </div>
-              )}
-            </div>
-
+            <Link
+              href="/"
+              className="text-gray-700 hover:text-indigo-600 font-medium"
+            >
+              Home
+            </Link>
             <Link
               href="/products"
               className="text-gray-700 hover:text-indigo-600 font-medium"
             >
               All Products
             </Link>
-
-            {/* Search Bar */}
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search..."
-                className="border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              />
-            </div>
           </div>
 
           {/* Right Side: Cart + Auth */}
@@ -94,6 +58,14 @@ export default function Navbar({ cartCount = 0, user1 }) {
                 </span>
               )}
             </button>
+            {/* Search Bar */}
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search..."
+                className="border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
+            </div>
 
             {/* User Section */}
             {user ? (
@@ -163,30 +135,6 @@ export default function Navbar({ cartCount = 0, user1 }) {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-white px-2 pt-2 pb-3 space-y-1 shadow-md">
-          <Link
-            href="/products"
-            className="block px-3 py-2 rounded text-gray-700 hover:bg-indigo-100"
-          >
-            All Products
-          </Link>
-          <Link
-            href="/products/category/electronics"
-            className="block px-3 py-2 rounded text-gray-700 hover:bg-indigo-100"
-          >
-            Electronics
-          </Link>
-          <Link
-            href="/products/category/fashion"
-            className="block px-3 py-2 rounded text-gray-700 hover:bg-indigo-100"
-          >
-            Fashion
-          </Link>
-          <Link
-            href="/products/category/home"
-            className="block px-3 py-2 rounded text-gray-700 hover:bg-indigo-100"
-          >
-            Home & Kitchen
-          </Link>
           <Link
             href="/cart"
             className="block px-3 py-2 rounded text-gray-700 hover:bg-indigo-100"
