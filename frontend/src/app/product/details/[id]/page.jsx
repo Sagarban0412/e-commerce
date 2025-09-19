@@ -14,7 +14,10 @@ const Page = () => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
- const [addedToCart, setAddedToCart] = useState(false);
+  const [addedToCart, setAddedToCart] = useState(false);
+
+  const [isLiked, setIsLiked] = useState(false);
+  const [likes, setLikes] = useState(0);
 
   // Use your existing CartContext
   const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
@@ -72,6 +75,48 @@ const Page = () => {
       setQuantity(newQuantity);
     }
   };
+
+// check favorites when product changes
+useEffect(() => {
+  if (product) {
+    let favorites = JSON.parse(localStorage.getItem("favorite"));
+
+    if (!favorites) {
+      favorites = [];
+    } else if (!Array.isArray(favorites)) {
+      favorites = [favorites];
+    }
+
+    const liked = favorites.some((item) => item._id === product._id);
+    setIsLiked(liked);
+  }
+}, [product]);
+
+// handle liked/unliked
+const handleLiked = () => {
+  let favorites = JSON.parse(localStorage.getItem("favorite"));
+
+  if (!favorites) {
+    favorites = [];
+  } else if (!Array.isArray(favorites)) {
+    favorites = [favorites];
+  }
+
+  if (isLiked) {
+    // remove from favorites
+    favorites = favorites.filter((item) => item._id !== product._id);
+    setIsLiked(false);
+  } else {
+    // add to favorites if not already there
+    if (!favorites.find((item) => item._id === product._id)) {
+      favorites.push(product);
+    }
+    setIsLiked(true);
+  }
+
+  localStorage.setItem("favorite", JSON.stringify(favorites));
+};
+
 
   if (loading) {
     return (
@@ -211,7 +256,7 @@ const Page = () => {
                     className="px-3 py-2 bg-gray-100 hover:bg-gray-200 transition-colors text-gray-700"
                     aria-label="Decrease quantity"
                   >
-                    <Minus/>
+                    <Minus />
                   </button>
                   <input
                     type="number"
@@ -225,7 +270,7 @@ const Page = () => {
                     className="px-3 py-2 bg-gray-100 hover:bg-gray-200 transition-colors text-gray-700"
                     aria-label="Increase quantity"
                   >
-                    <Plus/>
+                    <Plus />
                   </button>
                 </div>
               </div>
@@ -233,13 +278,16 @@ const Page = () => {
               <div className="flex flex-wrap gap-4 mb-8">
                 <button
                   onClick={addedToCart ? handleRemoveFromCart : handleAddToCart}
-                  className={` flex justify-center items-center gap-4 flex-1 font-medium py-3 px-6 rounded-lg transition duration-200 bg-blue-600 hover:bg-blue-700 text-white`}
+                  className={` flex justify-center items-center gap-4 flex-2 font-medium py-3 px-6 rounded-lg transition duration-200 bg-blue-600 hover:bg-blue-700 text-white`}
                 >
-                  <ShoppingCart/>
+                  <ShoppingCart />
                   Add to cart
                 </button>
-                <button className="p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-200">
-                  <Heart/>
+                <button
+                  className="p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-200 text-2xl flex items-center justify-center"
+                  onClick={handleLiked}
+                >
+                  {isLiked ? "❤️" : "🤍"}
                 </button>
               </div>
 

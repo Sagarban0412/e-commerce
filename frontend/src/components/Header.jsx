@@ -43,6 +43,12 @@ export default function Navbar({ cartCount = 0, user1 }) {
             >
               All Products
             </Link>
+            <Link
+              href="/favorite"
+              className="text-gray-700 hover:text-indigo-600 font-medium"
+            >
+              Favorite
+            </Link>
           </div>
 
           {/* Right Side: Cart + Auth */}
