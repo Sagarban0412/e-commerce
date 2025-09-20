@@ -6,10 +6,8 @@ import axios from "axios";
 const page = () => {
   const { cartItems, addToCart, removeFromCart, clearCart, getCartTotal } =
     useContext(CartContext);
-  // console.log(cartItems);
 
   const makePayment = async () => {
-    console.log(cartItems);
 
     const stripe = await loadStripe(
       "pk_test_51S8M5QP0DRUWvT9AlMG8qQc7naAlQwUcVpY6kfzTwoFQXVg6ssVPHEi3kQ3fCFT6XWTYwr5NqEyyEaQdXKr31zDb0034dUVWkz"
@@ -31,10 +29,11 @@ const page = () => {
         sessionId: session.id,
       });
 
+      
       if (result.error) {
         console.log(result.error.message);
       }
-      clearCart()
+      // clearCart()
     } catch (error) {
       console.error("Payment error:", error);
     }

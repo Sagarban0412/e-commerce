@@ -16,8 +16,8 @@ export default function Navbar({ cartCount = 0, user1 }) {
   const [categoryDropdown, setCategoryDropdown] = useState(false);
   const [userDropdown, setUserDropdown] = useState(false);
   const { user, logout } = useContext(AuthContext);
-  const {getCartCount } = useContext(CartContext)
-   const [cartOpen, setCartOpen] = useState(false);
+  const { getCartCount } = useContext(CartContext);
+  const [cartOpen, setCartOpen] = useState(false);
   return (
     <nav className="bg-white shadow sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -49,6 +49,16 @@ export default function Navbar({ cartCount = 0, user1 }) {
             >
               Favorite
             </Link>
+            {!user ? (
+              ""
+            ) : (
+              <Link
+                href="/myOrder"
+                className="text-gray-700 hover:text-indigo-600 font-medium"
+              >
+                My Order
+              </Link>
+            )}
           </div>
 
           {/* Right Side: Cart + Auth */}
@@ -78,7 +88,7 @@ export default function Navbar({ cartCount = 0, user1 }) {
               <div className="relative">
                 <button
                   className="flex items-center text-gray-700 hover:text-indigo-600"
-                  onClick={()=>setUserDropdown(!userDropdown)}
+                  onClick={() => setUserDropdown(!userDropdown)}
                 >
                   <FontAwesomeIcon icon={faCircleUser} size={20} />
                   <span className="ml-1">{user.name}</span>
